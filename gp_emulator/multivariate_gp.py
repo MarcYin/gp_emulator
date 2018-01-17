@@ -33,7 +33,7 @@ import shutil
 import numpy as np
 import matplotlib.pyplot as plt
 
-from GaussianProcess import GaussianProcess
+from .GaussianProcess import GaussianProcess
 
 
 class MultivariateEmulator ( object ):
@@ -72,7 +72,7 @@ class MultivariateEmulator ( object ):
         if dump is not None:
             if X is None and y is None:
                 if dump.find (".h5") > 0 or dump.find(".hdf5") > 0:
-                    raise IOError, "I can't be bothered working with HDF5 files"
+                    raise IOError("I can't be bothered working with HDF5 files")
                     
                     ##f = h5py.File ( dump, 'r+')
                     ##group = "%s_%03d_%03d_%03d" % ( model, sza, vza, raa )
@@ -107,10 +107,10 @@ class MultivariateEmulator ( object ):
                     #n_pcs = f[group+"/n_pcs"].value
                     #f.close()
             else:
-                raise ValueError, "You specified both a dump file and X and y"
+                raise ValueError("You specified both a dump file and X and y")
         else:
             if X is None or y is None:
-                raise ValueError, "Need to specify both X and y"
+                raise ValueError("Need to specify both X and y")
             else:
                 assert ( X.shape[0] == y.shape[0] ) 
                 assert X.ndim == 2 
@@ -122,9 +122,9 @@ class MultivariateEmulator ( object ):
         self.y_train = y
         self.thresh = thresh
         if basis_functions is None:
-            print "Decomposing the input dataset into basis functions...",
+            print ("Decomposing the input dataset into basis functions...")
             self.calculate_decomposition ( X, thresh )
-            print "Done!\n ====> Using %d basis functions" % self.n_pcs
+            print ("Done!\n ====> Using %d basis functions" % self.n_pcs)
             basis_functions = self.basis_functions
             n_pcs = self.n_pcs
 
@@ -153,7 +153,7 @@ class MultivariateEmulator ( object ):
         raa = int ( raa )
         if fname.find ( ".npz" ) < 0 and  ( fname.find ( "h5" ) >= 0 \
             or fname.find ( ".hdf" ) >= 0 ):
-            raise IOError, "I can't be bothered working with HDF5 files"
+            raise IOError("I can't be bothered working with HDF5 files")
             #try:
                 #f = h5py.File (fname, 'r+')
             #except IOError:
@@ -178,7 +178,7 @@ class MultivariateEmulator ( object ):
             np.savez_compressed ( fname, X=self.X_train, y=self.y_train, \
                 hyperparams=self.hyperparams, thresh=self.thresh, \
                 basis_functions=self.basis_functions, n_pcs=self.n_pcs )
-            print "Emulator safely saved"
+            print ("Emulator safely saved")
     
     def calculate_decomposition ( self, X, thresh ):
         """Does PCA decomposition
@@ -223,7 +223,7 @@ class MultivariateEmulator ( object ):
             self.emulators.append ( GaussianProcess ( np.atleast_2d( y), \
                 train_data[i] ) ) 
             if hyperparams is None:
-                print "\tFitting GP for basis function %d" % i
+                print ("\tFitting GP for basis function %d" % i)
                 self.hyperparams[ :, i] = \
                     self.emulators[i].learn_hyperparameters ( n_tries = n_tries )[1]
             else:

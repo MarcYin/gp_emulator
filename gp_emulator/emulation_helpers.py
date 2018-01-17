@@ -2,9 +2,9 @@
 import multiprocessing
 import numpy as np
 import scipy.stats as ss
-from lhd import lhd
-from GaussianProcess import GaussianProcess
-from multivariate_gp import MultivariateEmulator
+from .lhd import lhd
+from .GaussianProcess import GaussianProcess
+from .multivariate_gp import MultivariateEmulator
 
 def create_training_set ( parameters, minvals, maxvals, 
                          fix_params=None, n_train=200 ):
@@ -52,8 +52,7 @@ def create_training_set ( parameters, minvals, maxvals,
         for k,v in fix_params.iteritems():
             # Check whether they key makes sense
             if k not in parameters:
-                raise ValueError, "You have specified '%s', which is" %k + \
-                    " not in the parameters list"
+                raise ValueError("You have specified '%s', which is" %k + " not in the parameters list")
             
             extras = fix_parameter_training_set(parameters, minvals, maxvals,
                                                 k, v[0], v[1])
