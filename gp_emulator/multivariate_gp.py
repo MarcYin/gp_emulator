@@ -31,7 +31,6 @@ import shutil
 
 #import h5py
 import numpy as np
-#import matplotlib.pyplot as plt
 
 from GaussianProcess import GaussianProcess
 
@@ -331,16 +330,8 @@ if __name__ == "__main__":
     hypers = mv_em.hyperparams
     mv_em2 = MultivariateEmulator( X=train_brf, y=train_paramsoot, hyperparams=hypers )
     y_arr = y_test*1
-    for i in xrange(8):
-        y_arr[-1] = 0.05 + 0.1*i
-        plt.plot ( mv_em.predict ( y_arr )[0], '-r', lw=2 )
-        plt.plot ( mv_em2.predict ( y_arr )[0], '-k', lw=1 )
     mv_em.dump_emulator ( "emulator1.npz" )
     plt.figure()
     new_em = MultivariateEmulator ( dump="emulator1.npz")
     for i in xrange(8):
         y_arr[-1] = 0.05 + 0.1*i
-        plt.plot ( mv_em.predict ( y_arr )[0], '-r', lw=2 )
-        plt.plot ( new_em.predict ( y_arr )[0], '-k', lw=1 )
-
-    
