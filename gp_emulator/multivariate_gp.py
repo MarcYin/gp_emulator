@@ -28,10 +28,7 @@ to be the saved filename, and the emulator will be recreated.
 """
 import os
 import shutil
-
-#import h5py
 import numpy as np
-
 from GaussianProcess import GaussianProcess
 
 
